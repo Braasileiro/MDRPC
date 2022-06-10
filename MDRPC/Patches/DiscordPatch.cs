@@ -65,7 +65,7 @@ namespace MDRPC.Patches
                         Assets = new ActivityAssets()
                         {
                             LargeImage = "default",
-                            LargeText = $"Player: {player}"
+                            LargeText = $"{player} • {Global.MelonInfo.Name} {Global.MelonInfo.Version} by {Global.MelonInfo.Author}"
                         }
                     };
                 }
@@ -83,7 +83,7 @@ namespace MDRPC.Patches
                         Assets = new ActivityAssets()
                         {
                             LargeImage = "default",
-                            LargeText = $"Player: {player} • Character: {CharacterModel.GetName(character)} • Elfin: {ElfinModel.GetName(elfin)}",
+                            LargeText = $"{player} • {CharacterModel.GetName(character)} • {ElfinModel.GetName(elfin)}",
                             SmallImage = "playing",
                             SmallText = "Playing"
                         },
