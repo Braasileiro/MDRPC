@@ -4,7 +4,6 @@ using HarmonyLib;
 using MDRPC.Models;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
-using Assets.Scripts.PeroTools.Nice.Interface;
 
 namespace MDRPC.Patches
 {
@@ -12,7 +11,7 @@ namespace MDRPC.Patches
     {
         private static Activity _activity;
         private static DiscordManager _manager;
-        private static bool _reinstantiated = false;
+        private static bool _isReinstantiated = false;
 
         public static void DoIt()
         {
@@ -45,86 +44,70 @@ namespace MDRPC.Patches
 
         private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
         {
-            // Reinstantiate SDK
-            Reinstantiate(__instance);
-
-            if (_reinstantiated)
+            try
             {
-                // Account Data
-                SingletonDataObject account = Singleton<DataManager>.instance["Account"];
+                // Reinstantiate SDK
+                Reinstantiate(__instance);
 
-                // PlayerName
-                string player = VariableUtils.GetResult<string>(account["PlayerName"]);
-
-                if (!isPlaying)
+                if (_isReinstantiated)
                 {
+                    // Model
+                    var model = new ActivityModel(
+                        isPlaying: isPlaying,
+                        levelInfo: levelInfo,
+                        playerAccount: Singleton<DataManager>.instance["Account"]
+                    );
+
+                    // Activity
                     _activity = new Activity
                     {
-                        Details = "Menu",
-                        State = "Browsing",
+                        Details = model.GetDetails(),
+                        State = model.GetState(),
                         Assets = new ActivityAssets()
                         {
-                            LargeImage = "default",
-                            LargeText = $"{player} • {Global.MelonInfo.Name} {Global.MelonInfo.Version} by {Global.MelonInfo.Author}"
+                            LargeImage = model.GetLargeImage(),
+                            LargeText = model.GetLargeImageText()
                         }
                     };
-                }
-                else
-                {
-                    int elfin = VariableUtils.GetResult<int>(account["SelectedElfinIndex"]);
-                    int character = VariableUtils.GetResult<int>(account["SelectedRoleIndex"]);
-                    int difficulty = VariableUtils.GetResult<int>(account["SelectedDifficulty"]);
-                    string level = VariableUtils.GetResult<string>(account["SelectedMusicLevel"]);
 
-                    _activity = new Activity
+                    if (isPlaying)
                     {
-                        Details = levelInfo,
-                        State = LevelModel.GetDescription(difficulty, level),
-                        Assets = new ActivityAssets()
-                        {
-                            LargeImage = "default",
-                            LargeText = $"{player} • {CharacterModel.GetName(character)} • {ElfinModel.GetName(elfin)}",
-                            SmallImage = "playing",
-                            SmallText = "Playing"
-                        },
-                        Timestamps = new ActivityTimestamps()
+                        _activity.Assets.SmallImage = model.GetSmallImage();
+                        _activity.Assets.SmallText = model.GetSmallImageText();
+                        _activity.Timestamps = new ActivityTimestamps()
                         {
                             Start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                        }
-                    };
+                        };
+                    }
                 }
             }
-        }
-
-        private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
-        {
-            // Override Activity
-            activity = _activity;
+            catch (Exception e)
+            {
+                Global.MelonLogger.Error($"Failed to update the Discord Activity: {e.Message}");
+            }
         }
 
         private static void Reinstantiate(DiscordManager manager)
         {
-            if (Constants.DISCORD_CLIENT_ID <= 0) {
-                #pragma warning disable CS0162
-                Global.MelonLogger.Error("Please set an valid Discord ClientID.");
-                #pragma warning restore CS0162
-                return;
-            }
-
-            if (!_reinstantiated)
+            #pragma warning disable CS0162
+            if (Constants.DISCORD_CLIENT_ID <= 0)
             {
-                // Set Instance
+                Global.MelonLogger.Error("Please set an valid Discord ClientID.");
+            }
+            else if (!_isReinstantiated)
+            {
+                // Set Current Instance
                 _manager = manager;
 
-                // Dispose
-                DiscordPatch.Dispose();
+                // Dispose Current Instance
+                Dispose();
 
                 // Init Discord SDK
                 _manager.m_Discord = new Discord.Discord(Constants.DISCORD_CLIENT_ID, 1UL);
 
                 if (_manager.m_Discord.isInit == Result.Ok)
                 {
-                    _reinstantiated = true;
+                    _isReinstantiated = true;
                     _manager.m_ActivityManager = _manager.m_Discord.GetActivityManager();
                     _manager.m_ApplicationManager = _manager.m_Discord.GetApplicationManager();
 
@@ -135,6 +118,13 @@ namespace MDRPC.Patches
                     Global.MelonLogger.Error("Failed to reinstantiate Discord SDK.");
                 }
             }
+            #pragma warning restore CS0162
+        }
+
+        private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
+        {
+            // Override
+            activity = _activity;
         }
 
         public static void Dispose()

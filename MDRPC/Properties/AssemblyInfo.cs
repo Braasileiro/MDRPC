@@ -23,4 +23,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: MelonGame("PeroPeroGames", "MuseDash")]
 
 // Suppress
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:MDRPC.Patches")]
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:MDRPC.Patches")]

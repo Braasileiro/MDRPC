@@ -1,6 +1,6 @@
 ﻿namespace MDRPC.Models
 {
-    public class LevelModel
+    public class SongLevelModel
     {
         public enum Type
         {
