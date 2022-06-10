@@ -1,6 +1,7 @@
 ﻿using System;
 using Discord;
 using HarmonyLib;
+using MDRPC.Models;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
 using Assets.Scripts.PeroTools.Nice.Interface;
@@ -38,7 +39,7 @@ namespace MDRPC.Patches
                         typeof(ActivityManager.UpdateActivityHandler)
                     }
                 ),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(DiscordPatch), "GetUpdateActivity"))
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity"))
             );
         }
 
@@ -49,12 +50,11 @@ namespace MDRPC.Patches
 
             if (_reinstantiated)
             {
-                // Default Assets
-                ActivityAssets assets = new ActivityAssets()
-                {
-                    LargeImage = "default",
-                    LargeText = $"{Global.MelonInfo.Name} v{Global.MelonInfo.Version} by {Global.MelonInfo.Author}"
-                };
+                // Account Data
+                SingletonDataObject account = Singleton<DataManager>.instance["Account"];
+
+                // PlayerName
+                string player = VariableUtils.GetResult<string>(account["PlayerName"]);
 
                 if (!isPlaying)
                 {
@@ -62,43 +62,31 @@ namespace MDRPC.Patches
                     {
                         Details = "Menu",
                         State = "Browsing",
-                        Assets = assets
+                        Assets = new ActivityAssets()
+                        {
+                            LargeImage = "default",
+                            LargeText = $"Player: {player}"
+                        }
                     };
                 }
                 else
                 {
-                    string state;
-                    DataManager data = Singleton<DataManager>.instance;
-                    int difficulty = VariableUtils.GetResult<int>(data["Account"]["SelectedDifficulty"]);
-                    string level = VariableUtils.GetResult<string>(data["Account"]["SelectedMusicLevel"]);
-
-                    switch (difficulty)
-                    {
-                        case 1:
-                            state = $"Easy {level}⭐";
-                            break;
-
-                        case 2:
-                            state = $"Hard {level}⭐";
-                            break;
-
-                        case 3:
-                            state = $"Master {level}⭐";
-                            break;
-
-                        default:
-                            state = "???";
-                            break;
-                    }
-
-                    assets.SmallText = "Playing";
-                    assets.SmallImage = "playing";
+                    int elfin = VariableUtils.GetResult<int>(account["SelectedElfinIndex"]);
+                    int character = VariableUtils.GetResult<int>(account["SelectedRoleIndex"]);
+                    int difficulty = VariableUtils.GetResult<int>(account["SelectedDifficulty"]);
+                    string level = VariableUtils.GetResult<string>(account["SelectedMusicLevel"]);
 
                     _activity = new Activity
                     {
                         Details = levelInfo,
-                        State = state,
-                        Assets = assets,
+                        State = LevelModel.GetDescription(difficulty, level),
+                        Assets = new ActivityAssets()
+                        {
+                            LargeImage = "default",
+                            LargeText = $"Player: {player} • Character: {CharacterModel.GetName(character)} • Elfin: {ElfinModel.GetName(elfin)}",
+                            SmallImage = "playing",
+                            SmallText = "Playing"
+                        },
                         Timestamps = new ActivityTimestamps()
                         {
                             Start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
@@ -108,15 +96,18 @@ namespace MDRPC.Patches
             }
         }
 
-        private static void GetUpdateActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
+        private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
         {
+            // Override Activity
             activity = _activity;
         }
 
         private static void Reinstantiate(DiscordManager manager)
         {
             if (Constants.DISCORD_CLIENT_ID <= 0) {
+                #pragma warning disable CS0162
                 Global.MelonLogger.Error("Please set an valid Discord ClientID.");
+                #pragma warning restore CS0162
                 return;
             }
 
