@@ -16,3 +16,8 @@ Just play the game my little PogChamp. The Discord Activity will show up.
 
 # Thanks
 This mod is based on the [DiscordPlus](https://github.com/mo10/DiscordPlus) from mo10.
+
+# Showcase
+<p align="center">
+  <img src="./Assets/Readme/discord_status.png">
+</p>
