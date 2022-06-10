@@ -72,15 +72,11 @@ namespace MDRPC.Models
 
         public string GetSmallImage()
         {
-            if (!isPlaying) return "";
-
             return "playing";
         }
 
         public string GetSmallImageText()
         {
-            if (!isPlaying) return "";
-
             return "Playing";
         }
     }

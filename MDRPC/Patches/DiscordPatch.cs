@@ -59,24 +59,37 @@ namespace MDRPC.Patches
                     );
 
                     // Activity
-                    _activity = new Activity
+                    if (!isPlaying)
                     {
-                        Details = model.GetDetails(),
-                        State = model.GetState(),
-                        Assets = new ActivityAssets()
+                        _activity = new Activity
                         {
-                            LargeImage = model.GetLargeImage(),
-                            LargeText = model.GetLargeImageText()
-                        }
-                    };
+                            Details = model.GetDetails(),
+                            State = model.GetState(),
+                            Assets = new ActivityAssets()
+                            {
+                                LargeImage = model.GetLargeImage(),
+                                LargeText = model.GetLargeImageText()
+                            }
+                        };
+                    }
+                    else
+                    {
+                        _activity = new Activity
+                        {
+                            Details = model.GetDetails(),
+                            State = model.GetState(),
+                            Assets = new ActivityAssets()
+                            {
+                                LargeImage = model.GetLargeImage(),
+                                LargeText = model.GetLargeImageText(),
+                                SmallImage = model.GetSmallImage(),
+                                SmallText = model.GetSmallImageText(),
 
-                    if (isPlaying)
-                    {
-                        _activity.Assets.SmallImage = model.GetSmallImage();
-                        _activity.Assets.SmallText = model.GetSmallImageText();
-                        _activity.Timestamps = new ActivityTimestamps()
-                        {
-                            Start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                            },
+                            Timestamps = new ActivityTimestamps()
+                            {
+                                Start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                            }
                         };
                     }
                 }
