@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Diagnostics.CodeAnalysis;
 
 // Info
 [assembly: AssemblyTitle(MDRPC.BuildInfo.Description)]
@@ -20,3 +21,6 @@ using System.Runtime.InteropServices;
 // MelonMod
 [assembly: MelonInfo(typeof(MDRPC.Main), MDRPC.BuildInfo.Name, MDRPC.BuildInfo.Version, MDRPC.BuildInfo.Author, MDRPC.BuildInfo.DownloadLink)]
 [assembly: MelonGame("PeroPeroGames", "MuseDash")]
+
+// Suppress
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:MDRPC.Patches")]
