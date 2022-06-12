@@ -69,7 +69,7 @@ namespace MDRPC.Patches
                     );
 
                     // Update Activity
-                    Update(model);
+                    UpdateActivity(model);
                 }
             }
             catch (Exception e)
@@ -122,7 +122,7 @@ namespace MDRPC.Patches
             }
         }
 
-        private static void Update(ActivityModel model)
+        private static void UpdateActivity(ActivityModel model)
         {
             _activity = new Activity
             {
