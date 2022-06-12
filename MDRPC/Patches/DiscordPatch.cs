@@ -1,6 +1,7 @@
 ﻿using System;
 using Discord;
 using HarmonyLib;
+using MelonLoader;
 using MDRPC.Models;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
@@ -11,7 +12,8 @@ namespace MDRPC.Patches
     {
         private static Activity _activity;
         private static DiscordManager _manager;
-        private static bool _isReinstantiated = false;
+
+        private static bool _reinstantiated = false;
 
         public static void DoIt()
         {
@@ -25,7 +27,7 @@ namespace MDRPC.Patches
                         typeof(string)
                     }
                 ),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(DiscordPatch), "SetUpdateActivity"))
+                prefix: AccessTools.Method(typeof(DiscordPatch), "SetUpdateActivity").ToNewHarmonyMethod()
             );
 
             // Assembly-CSharp::Discord.ActivityManager.UpdateActivity
@@ -38,10 +40,14 @@ namespace MDRPC.Patches
                         typeof(ActivityManager.UpdateActivityHandler)
                     }
                 ),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity"))
+                prefix: AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity").ToNewHarmonyMethod()
             );
         }
 
+
+        /*
+         * Patched Methods
+         */
         private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
         {
             try
@@ -49,7 +55,7 @@ namespace MDRPC.Patches
                 // Reinstantiate SDK
                 Reinstantiate(__instance);
 
-                if (_isReinstantiated)
+                if (_reinstantiated)
                 {
                     // Model
                     var model = new ActivityModel(
@@ -100,14 +106,19 @@ namespace MDRPC.Patches
             }
         }
 
+        private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
+        {
+            // Override Activity
+            activity = _activity;
+        }
+
+
+        /*
+         * Utils
+         */
         private static void Reinstantiate(DiscordManager manager)
         {
-            #pragma warning disable CS0162
-            if (Constants.DISCORD_CLIENT_ID <= 0)
-            {
-                Global.MelonLogger.Error("Please set an valid Discord ClientID.");
-            }
-            else if (!_isReinstantiated)
+            if (!_reinstantiated)
             {
                 // Set Current Instance
                 _manager = manager;
@@ -120,7 +131,7 @@ namespace MDRPC.Patches
 
                 if (_manager.m_Discord.isInit == Result.Ok)
                 {
-                    _isReinstantiated = true;
+                    _reinstantiated = true;
                     _manager.m_ActivityManager = _manager.m_Discord.GetActivityManager();
                     _manager.m_ApplicationManager = _manager.m_Discord.GetApplicationManager();
 
@@ -131,13 +142,6 @@ namespace MDRPC.Patches
                     Global.MelonLogger.Error("Failed to reinstantiate Discord SDK.");
                 }
             }
-            #pragma warning restore CS0162
-        }
-
-        private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
-        {
-            // Override
-            activity = _activity;
         }
 
         public static void Dispose()
