@@ -7,7 +7,7 @@ namespace MDRPC.Models
     public class ActivityModel
     {
         // Basic Info
-        private readonly bool isPlaying;
+        public readonly bool isPlaying;
         private readonly string levelInfo;
 
         // Player
@@ -16,6 +16,7 @@ namespace MDRPC.Models
         private string playerElfin;
         private string playerCharacter;
         private string playerSelectedSongLevel;
+
 
         public ActivityModel(bool isPlaying, string levelInfo, SingletonDataObject playerAccount)
         {

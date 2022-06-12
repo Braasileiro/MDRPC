@@ -13,6 +13,7 @@ namespace MDRPC.Patches
         private static Activity _activity;
         private static DiscordManager _manager;
 
+        private static long _timePlayed = 0;
         private static bool _reinstantiated = false;
 
         public static void DoIt()
@@ -42,6 +43,9 @@ namespace MDRPC.Patches
                 ),
                 prefix: AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity").ToNewHarmonyMethod()
             );
+
+            // Time Played
+            _timePlayed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
 
@@ -64,40 +68,8 @@ namespace MDRPC.Patches
                         playerAccount: Singleton<DataManager>.instance["Account"]
                     );
 
-                    // Activity
-                    if (!isPlaying)
-                    {
-                        _activity = new Activity
-                        {
-                            Details = model.GetDetails(),
-                            State = model.GetState(),
-                            Assets = new ActivityAssets()
-                            {
-                                LargeImage = model.GetLargeImage(),
-                                LargeText = model.GetLargeImageText()
-                            }
-                        };
-                    }
-                    else
-                    {
-                        _activity = new Activity
-                        {
-                            Details = model.GetDetails(),
-                            State = model.GetState(),
-                            Assets = new ActivityAssets()
-                            {
-                                LargeImage = model.GetLargeImage(),
-                                LargeText = model.GetLargeImageText(),
-                                SmallImage = model.GetSmallImage(),
-                                SmallText = model.GetSmallImageText(),
-
-                            },
-                            Timestamps = new ActivityTimestamps()
-                            {
-                                Start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                            }
-                        };
-                    }
+                    // Update Activity
+                    Update(model);
                 }
             }
             catch (Exception e)
@@ -118,7 +90,13 @@ namespace MDRPC.Patches
          */
         private static void Reinstantiate(DiscordManager manager)
         {
-            if (!_reinstantiated)
+            if (Constants.DISCORD_CLIENT_ID <= 0)
+            {
+                #pragma warning disable CS0162
+                Global.MelonLogger.Error("Please set an valid Discord ClientID.");
+                #pragma warning restore CS0162
+            }
+            else if (!_reinstantiated)
             {
                 // Set Current Instance
                 _manager = manager;
@@ -142,6 +120,27 @@ namespace MDRPC.Patches
                     Global.MelonLogger.Error("Failed to reinstantiate Discord SDK.");
                 }
             }
+        }
+
+        private static void Update(ActivityModel model)
+        {
+            _activity = new Activity
+            {
+                Details = model.GetDetails(),
+                State = model.GetState(),
+                Assets = new ActivityAssets()
+                {
+                    LargeImage = model.GetLargeImage(),
+                    LargeText = model.GetLargeImageText(),
+                    SmallImage = model.GetSmallImage(),
+                    SmallText = model.GetSmallImageText(),
+
+                },
+                Timestamps = new ActivityTimestamps()
+                {
+                    Start = model.isPlaying ? DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() : _timePlayed
+                }
+            };
         }
 
         public static void Dispose()
