@@ -20,6 +20,7 @@
             MagicalGirlMarija = 10,
             LittleDevilMarija = 11,
             TheGirlInBlackMarija = 12,
+            SisterMarija = 20,
             NavigatorYume = 15,
             NEKOOwO = 16,
             HakureiReimu = 18,
@@ -48,6 +49,7 @@
                 case Type.MagicalGirlMarija: return "Magical Girl Marija";
                 case Type.LittleDevilMarija: return "Little Devil Marija";
                 case Type.TheGirlInBlackMarija: return "The Girl In Black Marija";
+                case Type.SisterMarija: return "Sister Marija";
                 case Type.NavigatorYume: return "Navigator Yume";
                 case Type.NEKOOwO: return "NEKO#ΦωΦ";
                 case Type.HakureiReimu: return "Hakurei Reimu";
