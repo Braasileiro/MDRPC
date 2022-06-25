@@ -1,25 +1,20 @@
-﻿namespace MDRPC.Models
+﻿using System.Collections.Generic;
+using PeroPeroGames.GlobalDefines;
+
+namespace MDRPC.Models
 {
     public class SongLevelModel
     {
-        public enum Type
+        private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {
-            Easy = 1,
-            Hard = 2,
-            Master = 3
-        }
+            { DifficultyDefine.easy, "Easy" },
+            { DifficultyDefine.normal, "Hard" },
+            { DifficultyDefine.master, "Master" }
+        };
 
         public static string GetDescription(int difficulty, string level)
         {
-            Type type = (Type)difficulty;
-
-            switch (type)
-            {
-                case Type.Easy: return $"Easy {level}⭐";
-                case Type.Hard: return $"Hard {level}⭐";
-                case Type.Master: return $"Master {level}⭐";
-                default: return "???";
-            }
+            return Types.TryGetValue(difficulty, out string value) ? $"{value} {level}⭐" : "???";
         }
     }
 }

@@ -1,37 +1,27 @@
-﻿namespace MDRPC.Models
+﻿using System.Collections.Generic;
+using PeroPeroGames.GlobalDefines;
+
+namespace MDRPC.Models
 {
     public class ElfinModel
     {
-        public enum Type
+        private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {
-            MioSir = 0,
-            Angela = 1,
-            Thanatos = 2,
-            Rabot233 = 3,
-            LittleNurse = 4,
-            LittleWitch = 5,
-            DragonGirl = 6,
-            Lilith = 7,
-            DrPaige = 8
-        }
+            { ElfinDefine.none, "None" },
+            { ElfinDefine.cat, "Mio Sir" },
+            { ElfinDefine.angel, "Angela" },
+            { ElfinDefine.death_god, "Thanatos" },
+            { ElfinDefine.carrot_robot, "Rabot-233" },
+            { ElfinDefine.fan_robot, "Little Nurse" },
+            { ElfinDefine.magic_girl, "Little Witch" },
+            { ElfinDefine.dragon_girl, "Dragon Girl" },
+            { ElfinDefine.devil, "Lilith" },
+            { ElfinDefine.doctor, "Dr. Paige" }
+        };
 
         public static string GetName(int id)
         {
-            Type type = (Type)id;
-
-            switch (type)
-            {
-                case Type.MioSir: return "Mio Sir";
-                case Type.Angela: return "Angela";
-                case Type.Thanatos: return "Thanatos";
-                case Type.Rabot233: return "Rabot-233";
-                case Type.LittleNurse: return "Little Nurse";
-                case Type.LittleWitch: return "Little Witch";
-                case Type.DragonGirl: return "Dragon Girl";
-                case Type.Lilith: return "Lilith";
-                case Type.DrPaige: return "Dr. Paige";
-                default: return id.ToString();
-            }
+            return Types.TryGetValue(id, out string value) ? value : id.ToString();
         }
     }
 }

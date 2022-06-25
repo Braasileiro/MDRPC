@@ -1,61 +1,38 @@
-﻿namespace MDRPC.Models
+﻿using System.Collections.Generic;
+using PeroPeroGames.GlobalDefines;
+
+namespace MDRPC.Models
 {
     public class CharacterModel
     {
-        public enum Type
+        private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {
-            BassistRin = 0,
-            BadGirlRin = 1,
-            SleepwalkerGirlRin = 2,
-            BunnyGirlRin = 3,
-            ChristmasGiftRin = 13,
-            PartTimeWarriorRin = 17,
-            PilotBuro = 4,
-            IdolBuro = 5,
-            ZombieGirlBuro = 6,
-            JokerBuro = 7,
-            SailorSuitBuro = 14,
-            ViolinistMarija = 8,
-            MaidMarija = 9,
-            MagicalGirlMarija = 10,
-            LittleDevilMarija = 11,
-            TheGirlInBlackMarija = 12,
-            SisterMarija = 20,
-            NavigatorYume = 15,
-            NEKOOwO = 16,
-            HakureiReimu = 18,
-            ElClear = 19
-        }
+            { CharacterDefine.rin_rock, "Bad Girl Rin" },
+            { CharacterDefine.rin_sleepy, "Sleepwalker Girl Rin" },
+            { CharacterDefine.rin_bunny, "Bunny Girl Rin" },
+            { CharacterDefine.rin_santa, "Christmas Gift Rin" },
+            { CharacterDefine.rin_worker, "Part-Time Warrior Rin" },
+            { CharacterDefine.buro_pilot, "Pilot Buro" },
+            { CharacterDefine.buro_robot, "Idol Buro" },
+            { CharacterDefine.buro_zombie, "Zombie Girl Buro" },
+            { CharacterDefine.buro_joker, "Joker Buro" },
+            { CharacterDefine.buro_jk, "Sailor Suit Buro" },
+            { CharacterDefine.marija_violin, "Violinist Marija" },
+            { CharacterDefine.marija_maid, "Maid Marija" },
+            { CharacterDefine.marija_magic, "Magical Girl Marija" },
+            { CharacterDefine.marija_evil, "Little Devil Marija" },
+            { CharacterDefine.marija_black, "The Girl In Black Marija" },
+            { CharacterDefine.marija_sister, "Sister Marija" },
+            { CharacterDefine.yume, "Navigator Yume" },
+            { CharacterDefine.neko, "NEKO#ΦωΦ" },
+            { CharacterDefine.reimu, "Hakurei Reimu" },
+            { CharacterDefine.clear, "El_Clear" },
+
+        };
 
         public static string GetName(int id)
         {
-            Type type = (Type)id;
-
-            switch (type)
-            {
-                case Type.BassistRin: return "Bassist Rin";
-                case Type.BadGirlRin: return "Bad Girl Rin";
-                case Type.SleepwalkerGirlRin: return "Sleepwalker Girl Rin";
-                case Type.BunnyGirlRin: return "Bunny Girl Rin";
-                case Type.ChristmasGiftRin: return "Christmas Gift Rin";
-                case Type.PartTimeWarriorRin: return "Part-Time Warrior Rin";
-                case Type.PilotBuro: return "Pilot Buro";
-                case Type.IdolBuro: return "Idol Buro";
-                case Type.ZombieGirlBuro: return "Zombie Girl Buro";
-                case Type.JokerBuro: return "Joker Buro";
-                case Type.SailorSuitBuro: return "Sailor Suit Buro";
-                case Type.ViolinistMarija: return "Violinist Marija";
-                case Type.MaidMarija: return "Maid Marija";
-                case Type.MagicalGirlMarija: return "Magical Girl Marija";
-                case Type.LittleDevilMarija: return "Little Devil Marija";
-                case Type.TheGirlInBlackMarija: return "The Girl In Black Marija";
-                case Type.SisterMarija: return "Sister Marija";
-                case Type.NavigatorYume: return "Navigator Yume";
-                case Type.NEKOOwO: return "NEKO#ΦωΦ";
-                case Type.HakureiReimu: return "Hakurei Reimu";
-                case Type.ElClear: return "El_Clear";
-                default: return id.ToString();
-            }
+            return Types.TryGetValue(id, out string value) ? value : id.ToString();
         }
     }
 }
