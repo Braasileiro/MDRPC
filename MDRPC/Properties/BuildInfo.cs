@@ -1,6 +1,6 @@
 ﻿namespace MDRPC
 {
-    public static class BuildInfo
+    internal static class BuildInfo
     {
         public const string Name = "MDRPC";
         public const string Description = "Enhanced Discord Rich Presence for Muse Dash.";

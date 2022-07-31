@@ -3,7 +3,7 @@ using PeroPeroGames.GlobalDefines;
 
 namespace MDRPC.Models
 {
-    public class SongLevelModel
+    internal class SongLevelModel
     {
         private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {

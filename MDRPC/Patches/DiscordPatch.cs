@@ -3,20 +3,24 @@ using Discord;
 using HarmonyLib;
 using MelonLoader;
 using MDRPC.Models;
-using Assets.Scripts.PeroTools.Commons;
-using Assets.Scripts.PeroTools.Nice.Datas;
 
 namespace MDRPC.Patches
 {
-    class DiscordPatch
+    internal class DiscordPatch
     {
-        private static Activity _activity;
-        private static DiscordManager _manager;
+        // RPC
+        private static Activity activity;
+        private static DiscordManager manager;
+        private static readonly long timePlayed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        private static long _timePlayed = 0;
-        private static bool _reinstantiated = false;
+        // Song
+        private static ActivityModel activityModel;
 
-        public static void DoIt()
+        // States
+        private static bool reinstantiated = false;
+        
+        
+        public static void Init()
         {
             // Assembly-CSharp::DiscordManager.SetUpdateActivity
             Global.MelonHarmony.Patch(
@@ -43,33 +47,29 @@ namespace MDRPC.Patches
                 ),
                 prefix: AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity").ToNewHarmonyMethod()
             );
-
-            // Time Played
-            _timePlayed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
 
         /*
-         * Patched Methods
+         * Patches
          */
         private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
         {
             try
             {
-                // Reinstantiate SDK
+                // Reinstantiate Check
                 Reinstantiate(__instance);
 
-                if (_reinstantiated)
+                if (reinstantiated)
                 {
-                    // Model
-                    var model = new ActivityModel(
+                    // Build ActivityModel
+                    activityModel = new ActivityModel(
                         isPlaying: isPlaying,
-                        levelInfo: levelInfo,
-                        playerAccount: Singleton<DataManager>.instance["Account"]
+                        levelInfo: levelInfo
                     );
 
                     // Update Activity
-                    UpdateActivity(model);
+                    UpdateActivity();
                 }
             }
             catch (Exception e)
@@ -81,75 +81,75 @@ namespace MDRPC.Patches
         private static void GetUpdatedActivity(ref Activity activity, ActivityManager.UpdateActivityHandler callback)
         {
             // Override Activity
-            activity = _activity;
+            activity = DiscordPatch.activity;
         }
 
 
         /*
-         * Utils
+         * Events
          */
         private static void Reinstantiate(DiscordManager manager)
         {
-            if (Constants.DISCORD_CLIENT_ID <= 0)
-            {
-                #pragma warning disable CS0162
+            #pragma warning disable CS0162
+            if (Constants.Discord.ClientId <= 0)
+            {    
                 Global.MelonLogger.Error("Please set an valid Discord ClientID.");
-                #pragma warning restore CS0162
             }
-            else if (!_reinstantiated)
+            else if (!reinstantiated)
             {
-                // Set Current Instance
-                _manager = manager;
+                // Current Manager
+                DiscordPatch.manager = manager;
 
                 // Dispose Current Instance
                 Dispose();
 
-                // Init Discord SDK
-                _manager.m_Discord = new Discord.Discord(Constants.DISCORD_CLIENT_ID, 1UL);
+                // Reinit Discord Client
+                DiscordPatch.manager.m_Discord = new Discord.Discord(Constants.Discord.ClientId, 1UL);
 
-                if (_manager.m_Discord.isInit == Result.Ok)
+                if (DiscordPatch.manager.m_Discord.isInit == Result.Ok)
                 {
-                    _reinstantiated = true;
-                    _manager.m_ActivityManager = _manager.m_Discord.GetActivityManager();
-                    _manager.m_ApplicationManager = _manager.m_Discord.GetApplicationManager();
+                    reinstantiated = true;
+                    DiscordPatch.manager.m_ActivityManager = DiscordPatch.manager.m_Discord.GetActivityManager();
+                    DiscordPatch.manager.m_ApplicationManager = DiscordPatch.manager.m_Discord.GetApplicationManager();
 
-                    Global.MelonLogger.Msg("Discord SDK reinstantiated.");
+                    Global.MelonLogger.Msg("Discord Client reinstantiated.");
                 }
                 else
                 {
-                    Global.MelonLogger.Error("Failed to reinstantiate Discord SDK.");
+                    Global.MelonLogger.Error("Failed to reinstantiate Discord Client.");
                 }
             }
+            #pragma warning restore CS0162
         }
 
-        private static void UpdateActivity(ActivityModel model)
+        private static void UpdateActivity()
         {
-            _activity = new Activity
+            activity = new Activity
             {
-                Details = model.GetDetails(),
-                State = model.GetState(),
+                Details = activityModel.GetDetails(),
+                State = activityModel.GetState(),
                 Assets = new ActivityAssets()
                 {
-                    LargeImage = model.GetLargeImage(),
-                    LargeText = model.GetLargeImageText(),
-                    SmallImage = model.GetSmallImage(),
-                    SmallText = model.GetSmallImageText(),
+                    LargeImage = activityModel.GetLargeImage(),
+                    LargeText = activityModel.GetLargeImageText(),
+                    SmallImage = activityModel.GetSmallImage(),
+                    SmallText = activityModel.GetSmallImageText(),
 
                 },
                 Timestamps = new ActivityTimestamps()
                 {
-                    Start = model.isPlaying ? DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() : _timePlayed
-                }
+                    Start = timePlayed
+                },
             };
         }
 
         public static void Dispose()
         {
-            _manager.m_ActivityManager = null;
-            _manager.m_ApplicationManager = null;
-            _manager.m_Discord.Dispose();
+            manager.m_ActivityManager = null;
+            manager.m_ApplicationManager = null;
+            manager.m_Discord.Dispose();
 
-            Global.MelonLogger.Msg("Discord SDK instance disposed.");
+            Global.MelonLogger.Msg("Discord Client instance disposed.");
         }
     }
 }

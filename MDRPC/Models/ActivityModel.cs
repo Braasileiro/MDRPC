@@ -1,33 +1,30 @@
 ﻿using System;
+using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
 using Assets.Scripts.PeroTools.Nice.Interface;
 
 namespace MDRPC.Models
 {
-    public class ActivityModel
+    internal class ActivityModel
     {
-        // Basic Info
         public readonly bool isPlaying;
         private readonly string levelInfo;
-
-        // Player
-        private string playerName;
-        private double playerLevel;
-        private string playerElfin;
-        private string playerCharacter;
-        private string playerSelectedSongLevel;
+        private readonly string playerName;
+        private readonly double playerLevel;
+        private readonly string playerElfin;
+        private readonly string playerCharacter;
+        private readonly string playerSelectedSongLevel;
 
 
-        public ActivityModel(bool isPlaying, string levelInfo, SingletonDataObject playerAccount)
+        public ActivityModel(bool isPlaying, string levelInfo)
         {
+            // Info
             this.isPlaying = isPlaying;
             this.levelInfo = levelInfo;
 
-            GetAccountData(playerAccount);
-        }
+            // Account Data
+            var playerAccount = Singleton<DataManager>.instance["Account"];
 
-        private void GetAccountData(SingletonDataObject playerAccount)
-        {
             playerName = VariableUtils.GetResult<string>(playerAccount["PlayerName"]);
 
             playerLevel = Math.Ceiling(VariableUtils.GetResult<int>(playerAccount["Exp"]) / 100d);
@@ -44,28 +41,34 @@ namespace MDRPC.Models
 
         public string GetDetails()
         {
-            if (!isPlaying) return "Menu";
+            if (!isPlaying)
+            {
+                return Constants.Discord.DetailsMenu;
+            }
 
             return levelInfo;
         }
 
         public string GetState()
         {
-            if (!isPlaying) return "Browsing";
+            if (!isPlaying)
+            {
+                return Constants.Discord.StateMenu;
+            }
 
             return playerSelectedSongLevel;
         }
 
         public string GetLargeImage()
         {
-            return "default";
+            return Constants.Discord.LargeImage;
         }
 
         public string GetLargeImageText()
         {
             if (!isPlaying)
             {
-                return $"{playerName} (Lv. {playerLevel}) • {Global.MelonInfo.Name} {Global.MelonInfo.Version} by {Global.MelonInfo.Author}";
+                return $"{playerName} (Lv. {playerLevel}) • {Global.MelonInfo.Name} {Global.MelonInfo.Version}";
             }
 
             return $"{playerName} (Lv. {playerLevel}) • {playerCharacter} feat. {playerElfin}";
@@ -73,16 +76,22 @@ namespace MDRPC.Models
 
         public string GetSmallImage()
         {
-            if (!isPlaying) return "";
+            if (!isPlaying)
+            {
+                return string.Empty;
+            }
 
-            return "playing";
+            return Constants.Discord.SmallImage;
         }
 
         public string GetSmallImageText()
         {
-            if (!isPlaying) return "";
+            if (!isPlaying)
+            {
+                return string.Empty;
+            }
 
-            return "Playing";
+            return Constants.Discord.SmallImageText;
         }
     }
 }

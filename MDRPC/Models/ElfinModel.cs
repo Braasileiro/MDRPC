@@ -3,7 +3,7 @@ using PeroPeroGames.GlobalDefines;
 
 namespace MDRPC.Models
 {
-    public class ElfinModel
+    internal class ElfinModel
     {
         private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {

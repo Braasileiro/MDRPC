@@ -7,7 +7,7 @@ namespace MDRPC
     {
         public override void OnApplicationStart()
         {
-            LoggerInstance.Msg("Loaded!");
+            LoggerInstance.Msg("Loaded.");
 
             // Global
             Global.MelonInfo = Info;
@@ -15,12 +15,12 @@ namespace MDRPC
             Global.MelonHarmony = HarmonyInstance;
 
             // Patches
-            DiscordPatch.DoIt();
+            DiscordPatch.Init();
         }
 
         public override void OnApplicationQuit()
         {
-            // Dispose Patches
+            // Dispose things here
             DiscordPatch.Dispose();
         }
     }

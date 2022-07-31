@@ -1,4 +1,4 @@
-﻿public static class Global
+﻿internal static class Global
 {
     public static HarmonyLib.Harmony MelonHarmony;
     public static MelonLoader.MelonInfoAttribute MelonInfo;
