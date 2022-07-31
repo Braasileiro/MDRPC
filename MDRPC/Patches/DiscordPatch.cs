@@ -108,9 +108,9 @@ namespace MDRPC.Patches
 
                 if (DiscordPatch.manager.m_Discord.isInit == Result.Ok)
                 {
-                    reinstantiated = true;
                     DiscordPatch.manager.m_ActivityManager = DiscordPatch.manager.m_Discord.GetActivityManager();
                     DiscordPatch.manager.m_ApplicationManager = DiscordPatch.manager.m_Discord.GetApplicationManager();
+                    reinstantiated = true;
 
                     Global.MelonLogger.Msg("Discord Client reinstantiated.");
                 }
