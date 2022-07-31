@@ -19,7 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyFileVersion(MDRPC.BuildInfo.Version)]
 
 // MelonMod
-[assembly: MelonInfo(typeof(MDRPC.Main), MDRPC.BuildInfo.Name, MDRPC.BuildInfo.Version, MDRPC.BuildInfo.Author, MDRPC.BuildInfo.DownloadLink)]
+[assembly: MelonInfo(typeof(MDRPC.Mod), MDRPC.BuildInfo.Name, MDRPC.BuildInfo.Version, MDRPC.BuildInfo.Author, MDRPC.BuildInfo.DownloadLink)]
 [assembly: MelonGame("PeroPeroGames", "MuseDash")]
 
 // Suppress

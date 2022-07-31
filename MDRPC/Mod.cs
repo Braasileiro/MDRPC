@@ -3,7 +3,7 @@ using MDRPC.Patches;
 
 namespace MDRPC
 {
-    public class Main : MelonMod
+    public class Mod : MelonMod
     {
         public override void OnApplicationStart()
         {
