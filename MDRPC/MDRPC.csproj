@@ -64,7 +64,7 @@
     <Compile Include="Models\CharacterModel.cs" />
     <Compile Include="Models\ElfinModel.cs" />
     <Compile Include="Properties\Global.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="Models\SongLevelModel.cs" />
     <Compile Include="Patches\DiscordPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
