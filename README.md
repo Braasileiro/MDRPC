@@ -21,5 +21,5 @@ This mod is based on the [DiscordPlus](https://github.com/mo10/DiscordPlus) from
 
 # Showcase
 <p align="center">
-  <img src="./Assets/Readme/preview.png">
+  <img src="./Assets/preview.png">
 </p>
