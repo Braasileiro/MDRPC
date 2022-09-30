@@ -18,22 +18,24 @@ namespace MDRPC.Models
 
         public ActivityModel(bool isPlaying, string levelInfo)
         {
-            // Account
-            var playerAccount = Singleton<DataManager>.instance["Account"];
-
-            // Song
+            // Menu Check
             this.isPlaying = isPlaying;
 
-            songInfo = levelInfo.Split(new[] { " - " }, StringSplitOptions.None);
+            if (isPlaying)
+            {
+                var account = Singleton<DataManager>.instance["Account"];
 
-            songLevel = new SongLevelModel(
-                level: VariableUtils.GetResult<string>(playerAccount["SelectedMusicLevel"]),
-                difficulty: VariableUtils.GetResult<int>(playerAccount["SelectedDifficulty"])
-            );
+                songInfo = levelInfo.Split(new[] { " - " }, StringSplitOptions.None);
 
-            elfin = ElfinModel.GetName(VariableUtils.GetResult<int>(playerAccount["SelectedElfinIndex"]));
+                songLevel = new SongLevelModel(
+                    level: VariableUtils.GetResult<string>(account["SelectedMusicLevel"]),
+                    difficulty: VariableUtils.GetResult<int>(account["SelectedDifficulty"])
+                );
 
-            character = CharacterModel.GetName(VariableUtils.GetResult<int>(playerAccount["SelectedRoleIndex"]));
+                elfin = ElfinModel.GetName(VariableUtils.GetResult<int>(account["SelectedElfinIndex"]));
+
+                character = CharacterModel.GetName(VariableUtils.GetResult<int>(account["SelectedRoleIndex"]));
+            }
         }
 
         public string GetDetails()
@@ -42,8 +44,10 @@ namespace MDRPC.Models
             {
                 return Constants.Discord.MenuTitle;
             }
-
-            return songInfo.ElementAtOrDefault(0) ?? Constants.Discord.UnknownSong;
+            else
+            {
+                return songInfo.ElementAtOrDefault(0) ?? Constants.Discord.UnknownSong;
+            }
         }
 
         public string GetState()
@@ -52,8 +56,10 @@ namespace MDRPC.Models
             {
                 return Constants.Discord.MenuBrowsing;
             }
-
-            return songInfo.ElementAtOrDefault(1) ?? Constants.Discord.UnknownAuthor;
+            else
+            {
+                return songInfo.ElementAtOrDefault(1) ?? Constants.Discord.UnknownAuthor;
+            }
         }
 
         public string GetLargeImage()
@@ -67,8 +73,10 @@ namespace MDRPC.Models
             {
                 return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version}";
             }
-
-            return $"{character} feat. {elfin}";
+            else
+            {
+                return $"{character} feat. {elfin}";
+            }
         }
 
         public string GetSmallImage()
@@ -77,8 +85,10 @@ namespace MDRPC.Models
             {
                 return string.Empty;
             }
-
-            return songLevel.GetDifficultyImage();
+            else
+            {
+                return songLevel.GetDifficultyImage();
+            }
         }
 
         public string GetSmallImageText()
@@ -87,8 +97,10 @@ namespace MDRPC.Models
             {
                 return string.Empty;
             }
-
-            return songLevel.GetDifficultyName();
+            else
+            {
+                return songLevel.GetDifficultyName();
+            }
         }
     }
 }
