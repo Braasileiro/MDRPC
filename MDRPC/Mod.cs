@@ -5,7 +5,7 @@ namespace MDRPC
 {
     public class Mod : MelonMod
     {
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
         {
             LoggerInstance.Msg("Loaded.");
 
