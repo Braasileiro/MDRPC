@@ -27,7 +27,7 @@ namespace MDRPC.Models
 
         public string GetDifficultyName()
         {
-            return Types.TryGetValue(difficulty, out string value) ? $"{value} {level}⭐" : "???";
+            return $"{Constants.Discord.SmallImagePlayingText} • {(Types.TryGetValue(difficulty, out string value) ? $"{value} {level}⭐" : "???")}";
         }
 
         public string GetDifficultyImage()
