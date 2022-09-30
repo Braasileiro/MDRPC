@@ -10,7 +10,8 @@ namespace MDRPC.Models
             { DifficultyDefine.easy, "Easy" },
             { DifficultyDefine.normal, "Hard" },
             { DifficultyDefine.master, "Master" },
-            { DifficultyDefine.hide, "Master (Hide)" }
+            { DifficultyDefine.hide, "Hidden" },
+            { DifficultyDefine.spell, "Touhou" }
         };
 
 
@@ -41,7 +42,10 @@ namespace MDRPC.Models
                 return $"{Constants.Discord.SmallImagePlaying}_master";
 
             else if (difficulty == DifficultyDefine.hide)
-                return $"{Constants.Discord.SmallImagePlaying}_hide";
+                return $"{Constants.Discord.SmallImagePlaying}_hidden";
+
+            else if (difficulty == DifficultyDefine.spell)
+                return $"{Constants.Discord.SmallImagePlaying}_touhou";
 
             else
                 return Constants.Discord.SmallImagePlaying;
