@@ -8,13 +8,15 @@
             public const long ClientId = -1;
 
             // Default
-            public const string LargeImage = "default";
-            public const string SmallImage = "playing";
-            public const string SmallImageText = "Playing";
+            public const string DefaultImage = "default";
 
             // Menu
-            public const string DetailsMenu = "Menu";
-            public const string StateMenu = "Browsing";
+            public const string MenuTitle = "In Menu";
+            public const string MenuBrowsing = "Browsing";
+
+            // Status
+            public const string SmallImagePlaying = "playing";
+            public const string SmallImagePlayingText = "Playing";
         }
     }
 }

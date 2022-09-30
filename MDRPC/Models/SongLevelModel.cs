@@ -14,7 +14,7 @@ namespace MDRPC.Models
 
         public static string GetDescription(int difficulty, string level)
         {
-            return Types.TryGetValue(difficulty, out string value) ? $"{value} {level}⭐" : "???";
+            return Types.TryGetValue(difficulty, out string value) ? $"Playing on {value} {level}⭐" : "???";
         }
     }
 }

@@ -43,7 +43,7 @@ namespace MDRPC.Models
         {
             if (!isPlaying)
             {
-                return Constants.Discord.DetailsMenu;
+                return Constants.Discord.MenuTitle;
             }
 
             return levelInfo;
@@ -53,7 +53,7 @@ namespace MDRPC.Models
         {
             if (!isPlaying)
             {
-                return Constants.Discord.StateMenu;
+                return Constants.Discord.MenuBrowsing;
             }
 
             return playerSelectedSongLevel;
@@ -61,14 +61,14 @@ namespace MDRPC.Models
 
         public string GetLargeImage()
         {
-            return Constants.Discord.LargeImage;
+            return Constants.Discord.DefaultImage;
         }
 
         public string GetLargeImageText()
         {
             if (!isPlaying)
             {
-                return $"{playerName} (Lv. {playerLevel}) • {Global.MelonInfo.Name} {Global.MelonInfo.Version}";
+                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {playerName} (Lv. {playerLevel})";
             }
 
             return $"{playerName} (Lv. {playerLevel}) • {playerCharacter} feat. {playerElfin}";
@@ -81,7 +81,7 @@ namespace MDRPC.Models
                 return string.Empty;
             }
 
-            return Constants.Discord.SmallImage;
+            return Constants.Discord.SmallImagePlaying;
         }
 
         public string GetSmallImageText()
@@ -91,7 +91,7 @@ namespace MDRPC.Models
                 return string.Empty;
             }
 
-            return Constants.Discord.SmallImageText;
+            return Constants.Discord.SmallImagePlayingText;
         }
     }
 }
