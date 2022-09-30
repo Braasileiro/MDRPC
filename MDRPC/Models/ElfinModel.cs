@@ -16,7 +16,8 @@ namespace MDRPC.Models
             { ElfinDefine.magic_girl, "Little Witch" },
             { ElfinDefine.dragon_girl, "Dragon Girl" },
             { ElfinDefine.devil, "Lilith" },
-            { ElfinDefine.doctor, "Dr. Paige" }
+            { ElfinDefine.doctor, "Dr. Paige" },
+            { ElfinDefine.silencer, "Silencer" }
         };
 
         public static string GetName(int id)
