@@ -7,7 +7,8 @@ namespace MDRPC.Models
     {
         private static readonly Dictionary<int, string> Types = new Dictionary<int, string>()
         {
-            { CharacterDefine.rin_rock, "Bad Girl Rin" },
+            { CharacterDefine.rin_rock, "Bassist Rin" },
+            { CharacterDefine.rin_rampage, "Bad Girl Rin" },
             { CharacterDefine.rin_sleepy, "Sleepwalker Girl Rin" },
             { CharacterDefine.rin_bunny, "Bunny Girl Rin" },
             { CharacterDefine.rin_santa, "Christmas Gift Rin" },
