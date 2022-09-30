@@ -11,7 +11,8 @@ namespace MDRPC.Models
         public readonly bool isPlaying;
         private readonly string[] songInfo;
         private readonly SongLevelModel songLevel;
-
+        private readonly string name;
+        private readonly double level;
         private readonly string elfin;
         private readonly string character;
 
@@ -23,17 +24,20 @@ namespace MDRPC.Models
 
             if (isPlaying)
             {
-                var account = Singleton<DataManager>.instance["Account"];
+                // Name and Author
+                songInfo = levelInfo.Split(" - ");
 
-                songInfo = levelInfo.Split(new[] { " - " }, StringSplitOptions.None);
+                // Player Account JSON
+                var account = Singleton<DataManager>.instance["Account"];
 
                 songLevel = new SongLevelModel(
                     level: VariableUtils.GetResult<string>(account["SelectedMusicLevel"]),
                     difficulty: VariableUtils.GetResult<int>(account["SelectedDifficulty"])
                 );
 
+                name = VariableUtils.GetResult<string>(account["PlayerName"]);
+                level = Math.Ceiling(VariableUtils.GetResult<int>(account["Exp"]) / 100d);
                 elfin = ElfinModel.GetName(VariableUtils.GetResult<int>(account["SelectedElfinIndex"]));
-
                 character = CharacterModel.GetName(VariableUtils.GetResult<int>(account["SelectedRoleIndex"]));
             }
         }
@@ -71,11 +75,11 @@ namespace MDRPC.Models
         {
             if (!isPlaying)
             {
-                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version}";
+                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {name} (Lv. {level}";
             }
             else
             {
-                return $"{character} feat. {elfin}";
+                return $"{name} (Lv. {level}) • {character} feat. {elfin}";
             }
         }
 
