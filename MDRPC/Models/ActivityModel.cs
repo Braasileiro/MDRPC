@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
 using Assets.Scripts.PeroTools.Nice.Interface;
@@ -8,7 +9,8 @@ namespace MDRPC.Models
     internal class ActivityModel
     {
         public readonly bool isPlaying;
-        private readonly string levelInfo;
+        private readonly string[] songInfo;
+
         private readonly string playerName;
         private readonly double playerLevel;
         private readonly string playerElfin;
@@ -18,11 +20,11 @@ namespace MDRPC.Models
 
         public ActivityModel(bool isPlaying, string levelInfo)
         {
-            // Info
+            // Song
             this.isPlaying = isPlaying;
-            this.levelInfo = levelInfo;
+            songInfo = levelInfo.Split(new[] { " - " }, StringSplitOptions.None);
 
-            // Account Data
+            // Account
             var playerAccount = Singleton<DataManager>.instance["Account"];
 
             playerName = VariableUtils.GetResult<string>(playerAccount["PlayerName"]);
@@ -46,7 +48,7 @@ namespace MDRPC.Models
                 return Constants.Discord.MenuTitle;
             }
 
-            return levelInfo;
+            return songInfo.ElementAtOrDefault(0) ?? Constants.Discord.UnknownSong;
         }
 
         public string GetState()
@@ -56,7 +58,7 @@ namespace MDRPC.Models
                 return Constants.Discord.MenuBrowsing;
             }
 
-            return playerSelectedSongLevel;
+            return songInfo.ElementAtOrDefault(1) ?? Constants.Discord.UnknownAuthor;
         }
 
         public string GetLargeImage()
@@ -91,7 +93,7 @@ namespace MDRPC.Models
                 return string.Empty;
             }
 
-            return Constants.Discord.SmallImagePlayingText;
+            return $"{Constants.Discord.SmallImagePlayingText} • {playerSelectedSongLevel}";
         }
     }
 }

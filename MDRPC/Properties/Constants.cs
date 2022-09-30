@@ -17,6 +17,10 @@
             // Status
             public const string SmallImagePlaying = "playing";
             public const string SmallImagePlayingText = "Playing";
+
+            // Unknown
+            public const string UnknownSong = "Unknown Song";
+            public const string UnknownAuthor = "Unknown Author";
         }
     }
 }
