@@ -11,10 +11,11 @@ namespace MDRPC.Models
         public readonly bool isPlaying;
         private readonly string[] songInfo;
         private readonly SongLevelModel songLevel;
-        private readonly string name;
-        private readonly double level;
-        private readonly string elfin;
-        private readonly string character;
+
+        private readonly string playerName;
+        private readonly double playerLevel;
+        private readonly string playerElfin;
+        private readonly string playerCharacter;
 
 
         public ActivityModel(bool isPlaying, string levelInfo)
@@ -22,23 +23,24 @@ namespace MDRPC.Models
             // Menu Check
             this.isPlaying = isPlaying;
 
+            // Song
+            songInfo = levelInfo.Split(" - ");
+
+            // Account
+            var account = Singleton<DataManager>.instance["Account"];
+
+            playerName = VariableUtils.GetResult<string>(account["PlayerName"]);
+            playerLevel = Math.Ceiling(VariableUtils.GetResult<int>(account["Exp"]) / 100d);
+
             if (isPlaying)
             {
-                // Name and Author
-                songInfo = levelInfo.Split(" - ");
-
-                // Player Account JSON
-                var account = Singleton<DataManager>.instance["Account"];
-
                 songLevel = new SongLevelModel(
                     level: VariableUtils.GetResult<string>(account["SelectedMusicLevel"]),
                     difficulty: VariableUtils.GetResult<int>(account["SelectedDifficulty"])
                 );
 
-                name = VariableUtils.GetResult<string>(account["PlayerName"]);
-                level = Math.Ceiling(VariableUtils.GetResult<int>(account["Exp"]) / 100d);
-                elfin = ElfinModel.GetName(VariableUtils.GetResult<int>(account["SelectedElfinIndex"]));
-                character = CharacterModel.GetName(VariableUtils.GetResult<int>(account["SelectedRoleIndex"]));
+                playerElfin = ElfinModel.GetName(VariableUtils.GetResult<int>(account["SelectedElfinIndex"]));
+                playerCharacter = CharacterModel.GetName(VariableUtils.GetResult<int>(account["SelectedRoleIndex"]));
             }
         }
 
@@ -75,11 +77,11 @@ namespace MDRPC.Models
         {
             if (!isPlaying)
             {
-                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {name} (Lv. {level}";
+                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {playerName} (Lv. {playerLevel}";
             }
             else
             {
-                return $"{name} (Lv. {level}) • {character} feat. {elfin}";
+                return $"{playerName} (Lv. {playerLevel}) • {playerCharacter} feat. {playerElfin}";
             }
         }
 
