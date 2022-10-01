@@ -15,7 +15,7 @@ Just play the game my little PogChamp. The Discord Activity will show up.
 **Please make sure your Discord is open before the game. If you open Discord after the game, you will have to restart the game for the Discord status to work.**
 
 # Known Issues
-* Sometimes the current player's level doesn't match the game.
+* Sometimes the current player's level doesn't match the showed in-game.
 * The level of hidden songs appears incorrectly.
 
 Both problems I believe are due to using a JSON (which is not always up to date apparently). I'm looking for a way to get this directly from some game object at runtime.
