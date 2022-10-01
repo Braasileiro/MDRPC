@@ -18,7 +18,7 @@ Just play the game my little PogChamp. The Discord Activity will show up.
 * Sometimes the current player's level doesn't match the showed in-game.
 * The level of hidden songs appears incorrectly.
 
-Both problems I believe are due to using a JSON (which is not always up to date apparently). I'm looking for a way to get this directly from some game object at runtime.
+Both problems I believe are due to using a JSON which is not always up to date apparently. I'm looking for a way to get this directly from some game object at runtime.
 
 # Thanks
 This mod is based on the [DiscordPlus](https://github.com/mo10/DiscordPlus).
