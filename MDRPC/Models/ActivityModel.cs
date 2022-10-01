@@ -2,7 +2,6 @@
 using System.Linq;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
-using Assets.Scripts.PeroTools.Nice.Interface;
 
 namespace MDRPC.Models
 {
@@ -29,18 +28,18 @@ namespace MDRPC.Models
             // Account
             var account = Singleton<DataManager>.instance["Account"];
 
-            playerName = VariableUtils.GetResult<string>(account["PlayerName"]);
-            playerLevel = Math.Ceiling(VariableUtils.GetResult<int>(account["Exp"]) / 100d);
+            playerName = account["PlayerName"].Get<string>();
+            playerLevel = Math.Ceiling(account["Exp"].Get<int>() / 100d);
 
             if (isPlaying)
             {
                 songLevel = new SongLevelModel(
-                    level: VariableUtils.GetResult<string>(account["SelectedMusicLevel"]),
-                    difficulty: VariableUtils.GetResult<int>(account["SelectedDifficulty"])
+                    level: account["SelectedMusicLevel"].Get<string>(),
+                    difficulty: account["SelectedDifficulty"].Get<int>()
                 );
 
-                playerElfin = ElfinModel.GetName(VariableUtils.GetResult<int>(account["SelectedElfinIndex"]));
-                playerCharacter = CharacterModel.GetName(VariableUtils.GetResult<int>(account["SelectedRoleIndex"]));
+                playerElfin = ElfinModel.GetName(account["SelectedElfinIndex"].Get<int>());
+                playerCharacter = CharacterModel.GetName(account["SelectedRoleIndex"].Get<int>());
             }
         }
 
