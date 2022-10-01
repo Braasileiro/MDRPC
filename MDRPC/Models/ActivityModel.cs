@@ -76,7 +76,7 @@ namespace MDRPC.Models
         {
             if (!isPlaying)
             {
-                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {playerName} (Lv. {playerLevel}";
+                return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {playerName} (Lv. {playerLevel})";
             }
             else
             {
