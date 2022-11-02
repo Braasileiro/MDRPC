@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using Assets.Scripts.PeroTools.Commons;
+﻿using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
+using MDRPC.Patches;
+using System;
+using System.Linq;
 
 namespace MDRPC.Models
 {
@@ -15,7 +16,6 @@ namespace MDRPC.Models
         private readonly double playerLevel;
         private readonly string playerElfin;
         private readonly string playerCharacter;
-
 
         public ActivityModel(bool isPlaying, string levelInfo)
         {
@@ -34,8 +34,8 @@ namespace MDRPC.Models
             if (isPlaying)
             {
                 songLevel = new SongLevelModel(
-                    level: account["SelectedMusicLevel"].Get<string>(),
-                    difficulty: account["SelectedDifficulty"].Get<int>()
+                    level: HideBmsCheckPatch.Level,
+                    difficulty: HideBmsCheckPatch.Difficulty
                 );
 
                 playerElfin = ElfinModel.GetName(account["SelectedElfinIndex"].Get<int>());
