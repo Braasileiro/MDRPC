@@ -1,8 +1,8 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using HarmonyLib;
-using MelonLoader;
 using MDRPC.Models;
+using MelonLoader;
+using System;
 
 namespace MDRPC.Patches
 {
@@ -10,6 +10,7 @@ namespace MDRPC.Patches
     {
         // RPC
         private static Activity activity;
+
         private static DiscordManager manager;
         private static readonly long timePlayed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
@@ -18,8 +19,7 @@ namespace MDRPC.Patches
 
         // States
         private static bool reinstantiated = false;
-        
-        
+
         public static void Init()
         {
             // Assembly-CSharp::DiscordManager.SetUpdateActivity
@@ -49,10 +49,10 @@ namespace MDRPC.Patches
             );
         }
 
-
         /*
          * Patches
          */
+
         private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
         {
             try
@@ -84,15 +84,15 @@ namespace MDRPC.Patches
             activity = DiscordPatch.activity;
         }
 
-
         /*
          * Events
          */
+
         private static void Reinstantiate(DiscordManager manager)
         {
-            #pragma warning disable CS0162
+#pragma warning disable CS0162
             if (Constants.Discord.ClientId <= 0)
-            {    
+            {
                 Global.MelonLogger.Error("Please set an valid Discord ClientID.");
             }
             else if (!reinstantiated)
@@ -119,7 +119,7 @@ namespace MDRPC.Patches
                     Global.MelonLogger.Error("Failed to reinstantiate Discord Client.");
                 }
             }
-            #pragma warning restore CS0162
+#pragma warning restore CS0162
         }
 
         private static void UpdateActivity()
@@ -134,7 +134,6 @@ namespace MDRPC.Patches
                     LargeText = activityModel.GetLargeImageText(),
                     SmallImage = activityModel.GetSmallImage(),
                     SmallText = activityModel.GetSmallImageText(),
-
                 },
                 Timestamps = new ActivityTimestamps()
                 {

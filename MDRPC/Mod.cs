@@ -1,5 +1,5 @@
-﻿using MelonLoader;
-using MDRPC.Patches;
+﻿using MDRPC.Patches;
+using MelonLoader;
 
 namespace MDRPC
 {
