@@ -1,8 +1,7 @@
-﻿using Assets.Scripts.Database;
+﻿using HarmonyLib;
+using Assets.Scripts.Database;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
-using Assets.Scripts.PeroTools.Nice.Interface;
-using HarmonyLib;
 
 namespace MDRPC.Patches
 {
@@ -14,8 +13,11 @@ namespace MDRPC.Patches
 
         private static void Postfix(MusicInfo selectedMusic, ref int selectedDifficulty, string __result)
         {
-            Level = VariableUtils.GetResult<string>(Singleton<DataManager>.instance["Account"]["SelectedMusicLevel"]);
-            Difficulty = VariableUtils.GetResult<int>(Singleton<DataManager>.instance["Account"]["SelectedDifficulty"]);
+            var account = Singleton<DataManager>.instance["Account"];
+
+            Level = account["SelectedMusicLevel"].Get<string>();
+            Difficulty = account["SelectedDifficulty"].Get<int>();
+
             if (__result != null)
             {
                 if (__result.EndsWith("_map4"))
