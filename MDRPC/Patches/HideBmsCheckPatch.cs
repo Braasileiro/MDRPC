@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Assets.Scripts.Database;
 using Assets.Scripts.PeroTools.Commons;
 using Assets.Scripts.PeroTools.Nice.Datas;
@@ -18,18 +18,15 @@ namespace MDRPC.Patches
             Level = account["SelectedMusicLevel"].Get<string>();
             Difficulty = account["SelectedDifficulty"].Get<int>();
 
-            if (__result != null)
+            if (selectedDifficulty == 4)
             {
-                if (__result.EndsWith("_map4"))
-                {
-                    Level = selectedMusic.difficulty4;
-                    Difficulty = 4;
-                }
-                if (__result.EndsWith("_map5"))
-                {
-                    Level = selectedMusic.difficulty5;
-                    Difficulty = 5;
-                }
+                Level = selectedMusic.difficulty4;
+                Difficulty = 4;
+            }
+            else if (selectedDifficulty == 5)
+            {
+                Level = selectedMusic.difficulty5;
+                Difficulty = 5;
             }
         }
     }
