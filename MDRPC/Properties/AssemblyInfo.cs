@@ -1,7 +1,7 @@
 ﻿using MelonLoader;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Diagnostics.CodeAnalysis;
 
 // Info
 [assembly: AssemblyTitle(MDRPC.BuildInfo.Description)]

@@ -1,8 +1,8 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using HarmonyLib;
-using MDRPC.Models;
 using MelonLoader;
-using System;
+using MDRPC.Models;
 
 namespace MDRPC.Patches
 {
@@ -90,10 +90,11 @@ namespace MDRPC.Patches
 
         private static void Reinstantiate(DiscordManager manager)
         {
-#pragma warning disable CS0162
             if (Constants.Discord.ClientId <= 0)
             {
+#pragma warning disable CS0162
                 Global.MelonLogger.Error("Please set an valid Discord ClientID.");
+#pragma warning restore CS0162
             }
             else if (!reinstantiated)
             {
@@ -119,7 +120,6 @@ namespace MDRPC.Patches
                     Global.MelonLogger.Error("Failed to reinstantiate Discord Client.");
                 }
             }
-#pragma warning restore CS0162
         }
 
         private static void UpdateActivity()
