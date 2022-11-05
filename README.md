@@ -16,7 +16,6 @@ Just play the game my little PogChamp. The Discord Activity will show up.
 
 # Known Issues
 * Sometimes the current player's level doesn't match the showed in-game.
-* The level of Touhou hidden songs appears incorrectly. For the other songs, it's fixed on 0.0.8 version and above thanks to [@lxymahatma](https://github.com/lxymahatma).
 
 # Thanks
 This mod is based on the [DiscordPlus](https://github.com/mo10/DiscordPlus).
