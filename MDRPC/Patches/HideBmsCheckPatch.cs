@@ -13,20 +13,32 @@ namespace MDRPC.Patches
 
         private static void Postfix(MusicInfo selectedMusic, ref int selectedDifficulty, string __result)
         {
-            var account = Singleton<DataManager>.instance["Account"];
-
-            Level = account["SelectedMusicLevel"].Get<string>();
-            Difficulty = account["SelectedDifficulty"].Get<int>();
-
-            if (selectedDifficulty == 4)
+            switch (selectedDifficulty)
             {
-                Level = selectedMusic.difficulty4;
-                Difficulty = 4;
-            }
-            else if (selectedDifficulty == 5)
-            {
-                Level = selectedMusic.difficulty5;
-                Difficulty = 5;
+                case 1:
+                    Level = selectedMusic.difficulty1;
+                    Difficulty = 1;
+                    break;
+
+                case 2:
+                    Level = selectedMusic.difficulty2;
+                    Difficulty = 2;
+                    break;
+
+                case 3:
+                    Level = selectedMusic.difficulty3;
+                    Difficulty = 3;
+                    break;
+
+                case 4:
+                    Level = selectedMusic.difficulty4;
+                    Difficulty = 4;
+                    break;
+
+                case 5:
+                    Level = selectedMusic.difficulty5;
+                    Difficulty = 5;
+                    break;
             }
         }
     }
