@@ -28,7 +28,8 @@ namespace MDRPC.Models
             { CharacterDefine.neko, "NEKO#ΦωΦ" },
             { CharacterDefine.reimu, "Hakurei Reimu" },
             { CharacterDefine.clear, "El_Clear" },
-            { CharacterDefine.marisa, "Kirisame Marisa" }
+            { CharacterDefine.marisa, "Kirisame Marisa" },
+            { CharacterDefine.ark_nights_amiya, "Amiya" }
         };
 
         public static string GetName(int id)
