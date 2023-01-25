@@ -20,6 +20,7 @@ namespace MDRPC.Patches
         // States
         private static bool reinstantiated = false;
 
+        
         public static void Init()
         {
             // Assembly-CSharp::DiscordManager.SetUpdateActivity
@@ -48,10 +49,6 @@ namespace MDRPC.Patches
                 prefix: AccessTools.Method(typeof(DiscordPatch), "GetUpdatedActivity").ToNewHarmonyMethod()
             );
         }
-
-        /*
-         * Patches
-         */
 
         private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
         {
@@ -84,19 +81,9 @@ namespace MDRPC.Patches
             activity = DiscordPatch.activity;
         }
 
-        /*
-         * Events
-         */
-
         private static void Reinstantiate(DiscordManager manager)
         {
-            if (Constants.Discord.ClientId <= 0)
-            {
-#pragma warning disable CS0162
-                Global.MelonLogger.Error("Please set an valid Discord ClientID.");
-#pragma warning restore CS0162
-            }
-            else if (!reinstantiated)
+            if (!reinstantiated)
             {
                 // Current Manager
                 DiscordPatch.manager = manager;

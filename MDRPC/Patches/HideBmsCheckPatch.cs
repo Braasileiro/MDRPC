@@ -1,7 +1,5 @@
 using HarmonyLib;
 using Assets.Scripts.Database;
-using Assets.Scripts.PeroTools.Commons;
-using Assets.Scripts.PeroTools.Nice.Datas;
 
 namespace MDRPC.Patches
 {
