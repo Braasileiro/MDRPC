@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using PeroPeroGames.GlobalDefines;
+﻿using Il2CppPeroPeroGames.GlobalDefines;
 
 namespace MDRPC.Models
 {
