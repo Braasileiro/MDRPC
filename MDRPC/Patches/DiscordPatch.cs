@@ -118,10 +118,14 @@ namespace MDRPC.Patches
             activity.Details = activityModel.GetDetails();
             activity.State = activityModel.GetState();
             activity.Assets = Extensions.CreateValueType<ActivityAssets>();
-            activity.Assets.LargeImage = activityModel.GetLargeImage();
-            activity.Assets.LargeText = activityModel.GetLargeImageText();
-            activity.Assets.SmallImage = activityModel.GetSmallImage();
-            activity.Assets.SmallText = activityModel.GetSmallImageText();
+
+            var assets = Extensions.CreateValueType<ActivityAssets>();
+            assets.LargeImage = activityModel.GetLargeImage();
+            assets.LargeText = activityModel.GetLargeImageText();
+            assets.SmallImage = activityModel.GetSmallImage();
+            assets.SmallText = activityModel.GetSmallImageText();
+            activity.Assets = assets;
+
             activity.Timestamps = new ActivityTimestamps
             {
                 Start = timePlayed
