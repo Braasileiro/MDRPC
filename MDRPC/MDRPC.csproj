@@ -1,78 +1,42 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C3121DB3-33AE-4CC2-A3A4-740D945BD33C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MDRPC</RootNamespace>
-    <AssemblyName>MDRPC</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>embedded</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\publish\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
+  <Target Name="CopyDLLs" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(MD_NET6_DIRECTORY)\Mods" />
+    <Message Text="Copied DLL -&gt; $(MD_NET6_DIRECTORY)\Mods\$(ProjectName).dll" Importance="High" />
+  </Target>
+
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null">
-      <Private>False</Private>
+    <Reference Include="0Harmony">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\net6\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Il2Cppmscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <Private>False</Private>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
-      <Private>False</Private>
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
-    <Reference Include="Sirenix.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="UnhollowerBaseLib, Version=0.4.18.0, Culture=neutral, PublicKeyToken=null">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(MD_NET6_DIRECTORY)\MelonLoader\Il2CppAssemblies\Il2CppSirenix.Serialization.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\ActivityModel.cs" />
-    <Compile Include="Models\CharacterModel.cs" />
-    <Compile Include="Models\ElfinModel.cs" />
-    <Compile Include="Patches\HideBmsCheckPatch.cs" />
-    <Compile Include="Properties\Global.cs" />
-    <Compile Include="Mod.cs" />
-    <Compile Include="Models\SongLevelModel.cs" />
-    <Compile Include="Patches\DiscordPatch.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\BuildInfo.cs" />
-    <Compile Include="Properties\Constants.cs" />
-    <Compile Include="Utils\Extensions.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

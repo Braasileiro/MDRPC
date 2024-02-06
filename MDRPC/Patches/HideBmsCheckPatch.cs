@@ -1,5 +1,6 @@
 using HarmonyLib;
-using Assets.Scripts.Database;
+using Il2Cpp;
+using Il2CppAssets.Scripts.Database;
 
 namespace MDRPC.Patches
 {

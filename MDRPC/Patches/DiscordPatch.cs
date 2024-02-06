@@ -1,8 +1,10 @@
-﻿using System;
-using Discord;
+﻿using System.Drawing;
 using HarmonyLib;
 using MelonLoader;
 using MDRPC.Models;
+using Il2CppDiscord;
+using Il2Cpp;
+using Il2CppInterop.Runtime;
 
 namespace MDRPC.Patches
 {
@@ -92,7 +94,7 @@ namespace MDRPC.Patches
                 Dispose();
 
                 // Reinit Discord Client
-                DiscordPatch.manager.m_Discord = new Discord.Discord(Constants.Discord.ClientId, 1UL);
+                DiscordPatch.manager.m_Discord = new Discord(Constants.Discord.ClientId, 1UL);
 
                 if (DiscordPatch.manager.m_Discord.isInit == Result.Ok)
                 {
@@ -111,21 +113,22 @@ namespace MDRPC.Patches
 
         private static void UpdateActivity()
         {
-            activity = new Activity
+            // Requires a workaround to create ValueType objects
+            activity = Extensions.CreateValueType<Activity>();
+            activity.Details = activityModel.GetDetails();
+            activity.State = activityModel.GetState();
+            activity.Assets = Extensions.CreateValueType<ActivityAssets>();
+
+            var assets = Extensions.CreateValueType<ActivityAssets>();
+            assets.LargeImage = activityModel.GetLargeImage();
+            assets.LargeText = activityModel.GetLargeImageText();
+            assets.SmallImage = activityModel.GetSmallImage();
+            assets.SmallText = activityModel.GetSmallImageText();
+            activity.Assets = assets;
+
+            activity.Timestamps = new ActivityTimestamps
             {
-                Details = activityModel.GetDetails(),
-                State = activityModel.GetState(),
-                Assets = new ActivityAssets()
-                {
-                    LargeImage = activityModel.GetLargeImage(),
-                    LargeText = activityModel.GetLargeImageText(),
-                    SmallImage = activityModel.GetSmallImage(),
-                    SmallText = activityModel.GetSmallImageText(),
-                },
-                Timestamps = new ActivityTimestamps()
-                {
-                    Start = timePlayed
-                },
+                Start = timePlayed
             };
         }
 
