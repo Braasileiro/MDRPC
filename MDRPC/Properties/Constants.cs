@@ -1,26 +1,25 @@
-﻿namespace MDRPC
+﻿namespace MDRPC;
+
+internal static class Constants
 {
-    internal static class Constants
+    internal static class Discord
     {
-        internal static class Discord
-        {
-            // Discord ClientId
-            public const long ClientId = 984229584742514709;
+        // Discord ClientId
+        public const long ClientId = 984229584742514709;
 
-            // Default
-            public const string DefaultImage = "default";
+        // Default
+        public const string DefaultImage = "default";
 
-            // Menu
-            public const string MenuTitle = "In Menu";
-            public const string MenuBrowsing = "Browsing";
+        // Menu
+        public const string MenuTitle = "In Menu";
+        public const string MenuBrowsing = "Browsing";
 
-            // Status
-            public const string SmallImagePlaying = "playing";
-            public const string SmallImagePlayingText = "Playing";
+        // Status
+        public const string SmallImagePlaying = "playing";
+        public const string SmallImagePlayingText = "Playing";
 
-            // Unknown
-            public const string UnknownSong = "Unknown Song";
-            public const string UnknownAuthor = "Unknown Author";
-        }
+        // Unknown
+        public const string UnknownSong = "Unknown Song";
+        public const string UnknownAuthor = "Unknown Author";
     }
 }
