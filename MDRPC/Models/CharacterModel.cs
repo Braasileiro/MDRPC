@@ -28,7 +28,10 @@ internal class CharacterModel
         { CharacterDefine.reimu, "Hakurei Reimu" },
         { CharacterDefine.clear, "El_Clear" },
         { CharacterDefine.marisa, "Kirisame Marisa" },
-        { CharacterDefine.ark_nights_amiya, "Amiya" }
+        { CharacterDefine.ark_nights_amiya, "Amiya" },
+        { CharacterDefine.buro_ola, "Ola"},
+        { CharacterDefine.buro_taoist, "Exorcist Master Buro"},
+        { CharacterDefine.hastune_miku, "Hatsune Miku"}
     };
 
     public static string GetName(int id)

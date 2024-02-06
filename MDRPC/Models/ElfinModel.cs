@@ -16,7 +16,8 @@ internal class ElfinModel
         { ElfinDefine.dragon_girl, "Dragon Girl" },
         { ElfinDefine.devil, "Lilith" },
         { ElfinDefine.doctor, "Dr. Paige" },
-        { ElfinDefine.silencer, "Silencer" }
+        { ElfinDefine.silencer, "Silencer" },
+        { ElfinDefine.neon_egg, "Neon Egg" }
     };
 
     public static string GetName(int id)

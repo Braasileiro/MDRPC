@@ -54,10 +54,6 @@ internal class DiscordPatch
 
     private static void SetUpdateActivity(ref DiscordManager __instance, bool isPlaying, string levelInfo)
     {
-        Global.MelonLogger.Msg("----------");
-        Global.MelonLogger.Msg("isPlaying? " + isPlaying);
-        Global.MelonLogger.Msg("Is level info null? " + (levelInfo == null));
-        Global.MelonLogger.Msg("What is levelInfo? " + (levelInfo == null ? "Null" : levelInfo));
         try
         {
             // Reinstantiate Check
