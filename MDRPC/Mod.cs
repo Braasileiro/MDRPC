@@ -1,27 +1,26 @@
-﻿using MelonLoader;
-using MDRPC.Patches;
+﻿using MDRPC.Patches;
+using MelonLoader;
 
-namespace MDRPC
+namespace MDRPC;
+
+public class Mod : MelonMod
 {
-    public class Mod : MelonMod
+    public override void OnInitializeMelon()
     {
-        public override void OnInitializeMelon()
-        {
-            LoggerInstance.Msg("Loaded.");
+        LoggerInstance.Msg("Loaded.");
 
-            // Global
-            Global.MelonInfo = Info;
-            Global.MelonLogger = LoggerInstance;
-            Global.MelonHarmony = HarmonyInstance;
+        // Global
+        Global.MelonInfo = Info;
+        Global.MelonLogger = LoggerInstance;
+        Global.MelonHarmony = HarmonyInstance;
 
-            // Patches
-            DiscordPatch.Init();
-        }
+        // Patches
+        DiscordPatch.Init();
+    }
 
-        public override void OnApplicationQuit()
-        {
-            // Dispose things here
-            DiscordPatch.Dispose();
-        }
+    public override void OnApplicationQuit()
+    {
+        // Dispose things here
+        DiscordPatch.Dispose();
     }
 }

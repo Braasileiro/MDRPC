@@ -1,6 +1,8 @@
-﻿internal static class Global
+﻿using MelonLoader;
+
+internal static class Global
 {
     public static HarmonyLib.Harmony MelonHarmony;
-    public static MelonLoader.MelonInfoAttribute MelonInfo;
-    public static MelonLoader.MelonLogger.Instance MelonLogger;
+    public static MelonInfoAttribute MelonInfo;
+    public static MelonLogger.Instance MelonLogger;
 }
