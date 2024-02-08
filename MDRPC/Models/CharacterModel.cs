@@ -29,7 +29,7 @@ internal class CharacterModel
         { CharacterDefine.clear, "El_Clear" },
         { CharacterDefine.marisa, "Kirisame Marisa" },
         { CharacterDefine.ark_nights_amiya, "Amiya" },
-        { CharacterDefine.buro_ola, "Ola"},
+        { CharacterDefine.buro_ola, "Ola" },
         { CharacterDefine.buro_taoist, "Exorcist Master Buro" },
         { CharacterDefine.hastune_miku, "Hatsune Miku" },
         { CharacterDefine.kagamine_rin_len, "Kagamine Rin & Len" }
