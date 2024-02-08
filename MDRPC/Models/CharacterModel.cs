@@ -1,42 +1,28 @@
-﻿using Il2CppPeroPeroGames.GlobalDefines;
+﻿using Il2CppAssets.Scripts.Database;
 
 namespace MDRPC.Models;
 
 internal class CharacterModel
 {
-    private static readonly Dictionary<int, string> Types = new()
+    private static readonly List<string> CosCharacters = new()
     {
-        { CharacterDefine.rin_rock, "Bassist Rin" },
-        { CharacterDefine.rin_rampage, "Bad Girl Rin" },
-        { CharacterDefine.rin_sleepy, "Sleepwalker Girl Rin" },
-        { CharacterDefine.rin_bunny, "Bunny Girl Rin" },
-        { CharacterDefine.rin_santa, "Christmas Gift Rin" },
-        { CharacterDefine.rin_worker, "Part-Time Warrior Rin" },
-        { CharacterDefine.buro_pilot, "Pilot Buro" },
-        { CharacterDefine.buro_robot, "Idol Buro" },
-        { CharacterDefine.buro_zombie, "Zombie Girl Buro" },
-        { CharacterDefine.buro_joker, "Joker Buro" },
-        { CharacterDefine.buro_jk, "Sailor Suit Buro" },
-        { CharacterDefine.marija_violin, "Violinist Marija" },
-        { CharacterDefine.marija_maid, "Maid Marija" },
-        { CharacterDefine.marija_magic, "Magical Girl Marija" },
-        { CharacterDefine.marija_evil, "Little Devil Marija" },
-        { CharacterDefine.marija_black, "The Girl In Black Marija" },
-        { CharacterDefine.marija_sister, "Sister Marija" },
-        { CharacterDefine.yume, "Navigator Yume" },
-        { CharacterDefine.neko, "NEKO#ΦωΦ" },
-        { CharacterDefine.reimu, "Hakurei Reimu" },
-        { CharacterDefine.clear, "El_Clear" },
-        { CharacterDefine.marisa, "Kirisame Marisa" },
-        { CharacterDefine.ark_nights_amiya, "Amiya" },
-        { CharacterDefine.buro_ola, "Ola" },
-        { CharacterDefine.buro_taoist, "Exorcist Master Buro" },
-        { CharacterDefine.hastune_miku, "Hatsune Miku" },
-        { CharacterDefine.kagamine_rin_len, "Kagamine Rin & Len" }
+        { "Rin" },
+        { "Buro" },
+        { "Marija" }
     };
 
     public static string GetName(int id)
     {
-        return Types.TryGetValue(id, out var value) ? value : id.ToString();
+        var entity = GlobalDataBase.dbConfig.m_ConfigDic["character"].Cast<DBConfigCharacter>().GetLocal().GetInfoByIndex(id);
+
+        if (entity != null)
+        {
+            if (CosCharacters.Contains(entity.characterName, StringComparer.OrdinalIgnoreCase))
+                return $"{entity.cosName} {entity.characterName}";
+
+            return entity.characterName;
+		}
+
+        return id.ToString();
     }
 }
