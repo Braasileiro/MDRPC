@@ -1,7 +1,4 @@
-﻿using Il2CppAssets.Scripts.PeroTools.Commons;
-using Il2CppAssets.Scripts.PeroTools.Nice.Datas;
-using Il2CppAssets.Scripts.PeroTools.Nice.Interface;
-using MDRPC.Patches;
+﻿using Il2CppAssets.Scripts.Database;
 
 namespace MDRPC.Models;
 
@@ -24,21 +21,14 @@ internal class ActivityModel
         // Song
         songInfo = !string.IsNullOrEmpty(levelInfo) ? levelInfo.Split(" - ") : null;
 
-        // Account
-        var account = Singleton<DataManager>.instance["Account"];
+        playerName = DataHelper.nickname;
+        playerLevel = DataHelper.Level;
 
-        playerName = account["PlayerName"].GetResult<string>();
-        playerLevel = Math.Ceiling(account["Exp"].GetResult<int>() / 100d);
-
-        if (isPlaying)
+		if (isPlaying)
         {
-            songLevel = new SongLevelModel(
-                HideBmsCheckPatch.Level,
-                HideBmsCheckPatch.Difficulty
-            );
-
-            playerElfin = ElfinModel.GetName(account["SelectedElfinIndex"].GetResult<int>());
-            playerCharacter = CharacterModel.GetName(account["SelectedRoleIndex"].GetResult<int>());
+            songLevel = new SongLevelModel();
+            playerElfin = ElfinModel.GetName();
+            playerCharacter = CharacterModel.GetName();
         }
     }
 

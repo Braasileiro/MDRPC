@@ -4,13 +4,14 @@ namespace MDRPC.Models;
 
 internal class ElfinModel
 {
-    public static string GetName(int id)
+    public static string GetName()
     {
-        var entity = GlobalDataBase.dbConfig.m_ConfigDic["elfin"].Cast<DBConfigElfin>().GetLocal().GetInfoByIndex(id);
-
-		if (entity != null)
-			return entity.name;
-
-		return id.ToString();
+		return GlobalDataBase
+			.dbConfig
+			.m_ConfigDic["elfin"]
+			.Cast<DBConfigElfin>()
+			.GetLocal()
+			.GetInfoByIndex(DataHelper.selectedElfinIndex)
+			.name;
 	}
 }

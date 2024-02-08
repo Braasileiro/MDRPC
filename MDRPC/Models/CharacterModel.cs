@@ -11,18 +11,18 @@ internal class CharacterModel
         { "Marija" }
     };
 
-    public static string GetName(int id)
+    public static string GetName()
     {
-        var entity = GlobalDataBase.dbConfig.m_ConfigDic["character"].Cast<DBConfigCharacter>().GetLocal().GetInfoByIndex(id);
+        var entity = GlobalDataBase
+            .dbConfig
+            .m_ConfigDic["character"]
+            .Cast<DBConfigCharacter>()
+            .GetLocal()
+            .GetInfoByIndex(DataHelper.selectedRoleIndex);
 
-        if (entity != null)
-        {
-            if (CosCharacters.Contains(entity.characterName, StringComparer.OrdinalIgnoreCase))
-                return $"{entity.cosName} {entity.characterName}";
+		if (CosCharacters.Contains(entity.characterName, StringComparer.OrdinalIgnoreCase))
+            return $"{entity.cosName} {entity.characterName}";
 
-            return entity.characterName;
-		}
-
-        return id.ToString();
-    }
+		return entity.characterName;
+	}
 }
