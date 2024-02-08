@@ -1,46 +1,52 @@
-﻿using Il2CppPeroPeroGames.GlobalDefines;
+﻿using Il2CppAssets.Scripts.Database;
+using Il2CppPeroPeroGames.GlobalDefines;
 
 namespace MDRPC.Models;
 
 internal class SongLevelModel
 {
-    private static readonly Dictionary<int, string> Types = new()
+	private static readonly Dictionary<int, string> DifficultyNames = new()
+	{
+		{ DifficultyDefine.easy, "Easy" },
+		{ DifficultyDefine.normal, "Hard" },
+		{ DifficultyDefine.master, "Master" },
+		{ DifficultyDefine.hide, "Hidden" },
+		{ DifficultyDefine.spell, "Touhou" }
+	};
+
+	private readonly string level;
+	private readonly string difficulty;
+
+	public SongLevelModel()
     {
-        { DifficultyDefine.easy, "Easy" },
-        { DifficultyDefine.normal, "Hard" },
-        { DifficultyDefine.master, "Master" },
-        { DifficultyDefine.hide, "Hidden" },
-        { DifficultyDefine.spell, "Touhou" }
-    };
+		var musicInfo = BattleHelper.MusicInfo();
 
-    private readonly int difficulty;
+		level = DataHelper.selectedDifficulty switch
+		{
+			1 => musicInfo.difficulty1,
+			2 => musicInfo.difficulty2,
+			3 => musicInfo.difficulty3,
+			4 => musicInfo.difficulty4,
+			5 => musicInfo.difficulty5,
+			_ => "???"
+		};
 
-    private readonly string level;
-
-    public SongLevelModel(string level, int difficulty)
-    {
-        this.level = level;
-        this.difficulty = difficulty;
-    }
+		difficulty = DifficultyNames.TryGetValue(DataHelper.selectedDifficulty, out var value) ? value : null;
+	}
 
     public string GetDifficultyName()
     {
-        return
-            $"{Constants.Discord.SmallImagePlayingText} • {(Types.TryGetValue(difficulty, out var value) ? $"{value} {level}⭐" : "???")}";
-    }
+		if (difficulty != null)
+			return $"{Constants.Discord.SmallImagePlayingText} • {difficulty} {level}⭐";
+
+		return Constants.Discord.SmallImagePlayingText;
+	}
 
     public string GetDifficultyImage()
     {
-        if (difficulty == DifficultyDefine.easy)
-            return $"{Constants.Discord.SmallImagePlaying}_easy";
-        if (difficulty == DifficultyDefine.normal)
-            return $"{Constants.Discord.SmallImagePlaying}_hard";
-        if (difficulty == DifficultyDefine.master)
-            return $"{Constants.Discord.SmallImagePlaying}_master";
-        if (difficulty == DifficultyDefine.hide)
-            return $"{Constants.Discord.SmallImagePlaying}_hidden";
-        if (difficulty == DifficultyDefine.spell)
-            return $"{Constants.Discord.SmallImagePlaying}_touhou";
-        return Constants.Discord.SmallImagePlaying;
+		if (difficulty != null)
+			return $"{Constants.Discord.SmallImagePlaying}_{difficulty.ToLowerInvariant()}";
+
+		return Constants.Discord.SmallImagePlaying;
     }
 }
