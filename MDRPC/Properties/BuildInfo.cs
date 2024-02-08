@@ -6,6 +6,6 @@ internal static class BuildInfo
     public const string Description = "Enhanced Discord Rich Presence for Muse Dash.";
     public const string Author = "Brasileiro";
     public const string Company = "I love Mahou Shoujo Lyrical Nanoha.";
-    public const string Version = "0.1.0";
+    public const string Version = "0.1.1";
     public const string DownloadLink = "https://github.com/Braasileiro/MDRPC/releases/latest";
 }
