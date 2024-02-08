@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <Target Name="CopyDLLs" AfterTargets="Build">
-    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(MD_NET6_DIRECTORY)\Mods" />
-    <Message Text="Copied DLL -&gt; $(MD_NET6_DIRECTORY)\Mods\$(ProjectName).dll" Importance="High" />
+    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(MD_DIRECTORY)\Mods" />
+    <Message Text="Copied DLL -&gt; $(MD_DIRECTORY)\Mods\$(ProjectName).dll" Importance="High" />
   </Target>
 
   <ItemGroup>
