@@ -6,12 +6,16 @@ internal class ElfinModel
 {
     public static string GetName()
     {
-		return GlobalDataBase
+		var entity = GlobalDataBase
 			.dbConfig
 			.m_ConfigDic["elfin"]
 			.Cast<DBConfigElfin>()
 			.GetLocal()
-			.GetInfoByIndex(DataHelper.selectedElfinIndex)
-			.name;
+			.GetInfoByIndex(DataHelper.selectedElfinIndex);
+
+		if (entity != null)
+			return entity.name;
+
+		return null;
 	}
 }

@@ -20,9 +20,14 @@ internal class CharacterModel
             .GetLocal()
             .GetInfoByIndex(DataHelper.selectedRoleIndex);
 
-		if (CosCharacters.Contains(entity.characterName, StringComparer.OrdinalIgnoreCase))
-            return $"{entity.cosName} {entity.characterName}";
+        if (entity != null)
+        {
+			if (CosCharacters.Contains(entity.characterName, StringComparer.OrdinalIgnoreCase))
+				return $"{entity.cosName} {entity.characterName}";
 
-		return entity.characterName;
+			return entity.characterName;
+		}
+
+        return Constants.Discord.UnknownCharacter;
 	}
 }

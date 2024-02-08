@@ -55,8 +55,12 @@ internal class ActivityModel
     {
         if (!isPlaying)
             return $"{Global.MelonInfo.Name} {Global.MelonInfo.Version} • {playerName} (Lv. {playerLevel})";
-        return $"{playerName} (Lv. {playerLevel}) • {playerCharacter} feat. {playerElfin}";
-    }
+
+        if (playerElfin != null)
+            return $"{playerName} (Lv. {playerLevel}) • {playerCharacter} feat. {playerElfin}";
+
+        return $"{playerName} (Lv. {playerLevel}) • {playerCharacter}";
+	}
 
     public string GetSmallImage()
     {

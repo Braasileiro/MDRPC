@@ -21,5 +21,6 @@ internal static class Constants
         // Unknown
         public const string UnknownSong = "Unknown Song";
         public const string UnknownAuthor = "Unknown Author";
-    }
+		public const string UnknownCharacter = "Unknown Character";
+	}
 }
