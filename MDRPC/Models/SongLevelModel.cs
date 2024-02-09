@@ -17,10 +17,8 @@ internal class SongLevelModel
 	private readonly string level;
 	private readonly string difficulty;
 
-	public SongLevelModel()
+	public SongLevelModel(MusicInfo musicInfo)
     {
-		var musicInfo = BattleHelper.MusicInfo();
-
 		level = DataHelper.selectedDifficulty switch
 		{
 			1 => musicInfo.difficulty1,

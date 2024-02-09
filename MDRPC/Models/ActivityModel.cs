@@ -13,10 +13,15 @@ internal class ActivityModel
     private readonly string[] songInfo;
     private readonly SongLevelModel songLevel;
 
+    private readonly MusicInfo musicInfo;
+
     public ActivityModel(bool isPlaying, string levelInfo)
     {
         // Menu Check
         this.isPlaying = isPlaying;
+
+        // MusicInfo
+        musicInfo = BattleHelper.MusicInfo();
 
         // Song
         songInfo = !string.IsNullOrEmpty(levelInfo) ? levelInfo.Split(" - ") : null;
@@ -26,7 +31,7 @@ internal class ActivityModel
 
 		if (isPlaying)
         {
-            songLevel = new SongLevelModel();
+            songLevel = new SongLevelModel(musicInfo);
             playerElfin = ElfinModel.GetName();
             playerCharacter = CharacterModel.GetName();
         }
@@ -48,8 +53,10 @@ internal class ActivityModel
 
     public string GetLargeImage()
     {
-        return Constants.Discord.DefaultImage;
-    }
+        if (!isPlaying)
+            return Constants.Discord.DefaultImage;
+        return $"https://raw.githubusercontent.com/simon300000/musedash.moe/master/covers-raw/{musicInfo.cover}.png";
+	}
 
     public string GetLargeImageText()
     {
